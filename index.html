@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Photo Studio</title>
+    <style>
+      :root {
+        --bg: #1c0207;
+        --card: #7e001f;
+        --chip: #ffffff;
+        --gold: #ffd348;
+        --text: #f7f1f3;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+        color: var(--text);
+        background:
+          radial-gradient(120px 220px at 100% 8%, #5d0011 0%, transparent 70%),
+          radial-gradient(180px 280px at 0% 34%, #39000b 0%, transparent 70%),
+          radial-gradient(220px 250px at 70% 84%, #500014 0%, transparent 70%),
+          var(--bg);
+      }
+      .phone {
+        max-width: 390px;
+        margin: 0 auto;
+        min-height: 100vh;
+        padding: 12px 12px 88px;
+      }
+      .status { display:flex; justify-content:space-between; align-items:center; font-weight:700; font-size:14px; margin-bottom:10px; opacity:.95; }
+      .row { display:flex; align-items:center; justify-content:space-between; gap:10px; }
+      .user { font-size:28px; line-height:1.1; margin:12px 0 10px; font-weight:800; }
+      .user span { color:#f2ccd8; }
+      .avatar { width:42px; height:42px; border-radius:50%; background:linear-gradient(145deg,#ffd7ba,#8b3f29); border:2px solid #e4c8af; }
+      .search {
+        background: #7a0020;
+        border: 2px solid #b2617c;
+        border-radius: 12px;
+        height: 52px;
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        padding:0 14px;
+        font-weight:700;
+      }
+      .hero {
+        margin-top:14px;
+        border-radius:18px;
+        overflow:hidden;
+        background:linear-gradient(120deg,#612218,#e58f3f);
+        min-height:208px;
+        display:flex;
+        align-items:flex-end;
+        position:relative;
+      }
+      .hero::before {
+        content:"";
+        position:absolute;
+        inset:0;
+        background: radial-gradient(circle at 25% 35%, rgba(255,255,255,.35), transparent 35%),
+                    linear-gradient(to top, rgba(0,0,0,.45), transparent 40%);
+      }
+      .hero-banner {
+        position:relative;
+        z-index:1;
+        width:100%;
+        background:#890021e0;
+        padding:12px 14px;
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        font-weight:700;
+      }
+      .muted { opacity:.82; font-weight:500; margin-top:2px; }
+      .grid3 { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-top:10px; }
+      .tile {
+        border-radius:12px;
+        min-height:110px;
+        background:linear-gradient(135deg,#ff8a55,#2b1437);
+        position:relative;
+        overflow:hidden;
+      }
+      .tile::after{
+        content:attr(data-label);
+        position:absolute;
+        left:8px;
+        right:8px;
+        bottom:8px;
+        font-weight:700;
+        font-size:12px;
+      }
+      h2 { color:var(--gold); margin:14px 0 10px; text-align:center; font-size:42px; line-height:1.08; }
+      .collage { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+      .collage .tile { min-height:150px; }
+      .section-title { font-size:46px; font-weight:900; color:var(--gold); text-align:center; line-height:1.05; margin:18px 0 10px; }
+      .feature-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+      .feature {
+        border-radius:12px;
+        min-height:240px;
+        background:linear-gradient(145deg,#f8c8a0,#6d2d2d);
+        display:flex;
+        align-items:flex-end;
+        padding:10px;
+        font-weight:800;
+      }
+      .feature .pill-dark{ background:#020202c7; padding:6px 12px; border-radius:999px; font-size:18px; }
+      .shortcuts{ display:flex; gap:8px; margin:12px 0; overflow:auto; padding-bottom:2px; }
+      .shortcuts .chip{ flex:0 0 auto; padding:10px 12px; border-radius:10px; color:#000; font-weight:800; font-size:18px; }
+      .chip.orange{ background:#ff9e33; } .chip.pink{ background:#ff4f87; } .chip.yellow{ background:#ffd944; } .chip.green{ background:#65f4ac; }
+      .small-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:8px; }
+      .small-card{ height:110px; border-radius:10px; background:linear-gradient(135deg,#ebaa56,#193f7e); position:relative; }
+      .small-card span{ position:absolute; left:6px; bottom:6px; font-size:12px; background:#000c; padding:4px 8px; border-radius:999px; font-weight:700; }
+      .create{ margin-top:14px; font-size:40px; font-weight:900; }
+      .chips{ display:flex; flex-wrap:wrap; gap:8px; margin-top:10px; }
+      .chips .pill{ background:#fff; color:#2d2430; border-radius:999px; padding:10px 14px; font-weight:700; }
+      .nav {
+        position:fixed;
+        left:50%;
+        transform:translateX(-50%);
+        bottom:14px;
+        width:min(390px, calc(100% - 18px));
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        padding:0 8px;
+      }
+      .nav-main{
+        background:#ffb21a;
+        color:#111;
+        border-radius:999px;
+        display:flex;
+        gap:26px;
+        padding:12px 20px;
+        font-weight:800;
+      }
+      .fab{ width:54px; height:54px; border-radius:50%; display:grid; place-items:center; font-size:30px; font-weight:900; }
+      .fab.plus{ background:#ffb21a; color:#1e1300; }
+      .fab.cam{ background:#ff2a8e; }
+    </style>
+  </head>
+  <body>
+    <main class="phone">
+      <div class="status"><span>9:41</span><span>◔ ︱📶 ︱▮</span></div>
+      <div class="row">
+        <div class="user">Shubh Prabhaat, <span>Seema</span></div>
+        <div class="avatar"></div>
+      </div>
+      <div class="search"><span>🔍 &nbsp; Hindi ya English mein puche</span><span>🎙️</span></div>
+
+      <section class="hero">
+        <div class="hero-banner">
+          <div>Jaipur wali shaadi ki jhalkiya...🥰<div class="muted">225 ready to view</div></div>
+          <div style="font-size:28px">›</div>
+        </div>
+      </section>
+
+      <div class="grid3">
+        <div class="tile" data-label="Send Holi wishes"></div>
+        <div class="tile" data-label="Remove blur" style="background:linear-gradient(135deg,#8ec6c4,#312a54)"></div>
+        <div class="tile" data-label="Indian Avatar" style="background:linear-gradient(135deg,#d8b39a,#403626)"></div>
+      </div>
+
+      <h2>AI magic for you 💖</h2>
+      <div class="collage">
+        <div class="tile" data-label="Mamta & Amit" style="min-height:220px"></div>
+        <div>
+          <div class="tile" data-label="Shivratri video is ready" style="min-height:106px;background:linear-gradient(140deg,#8d693e,#25323d)"></div>
+          <div class="grid3" style="grid-template-columns:1fr 1fr; margin-top:8px;">
+            <div class="tile" data-label="2025" style="min-height:106px"></div>
+            <div class="tile" data-label="Seema over the years" style="min-height:106px;background:linear-gradient(135deg,#b7d0df,#4a4c76)"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-title">Start creating instantly ✨</div>
+      <div class="feature-grid">
+        <div class="feature"><span class="pill-dark">Photo to video ›</span></div>
+        <div class="feature" style="background:linear-gradient(145deg,#f0d7be,#6f3a46)"><span class="pill-dark">Bridal look ›</span></div>
+        <div class="feature" style="background:linear-gradient(145deg,#eddab6,#6e5f56)"><span class="pill-dark">Change background ›</span></div>
+        <div class="feature" style="background:linear-gradient(145deg,#dac8be,#44414f)"><span class="pill-dark">Create collage ›</span></div>
+        <div class="feature" style="background:linear-gradient(145deg,#676565,#363031)"><span class="pill-dark">Touchup your photos ›</span></div>
+        <div class="feature" style="background:linear-gradient(145deg,#4a2e25,#9c804f)"><span class="pill-dark">WhatsApp status ›</span></div>
+      </div>
+
+      <div class="shortcuts">
+        <div class="chip orange">Free up 1.2 GB</div>
+        <div class="chip pink">Print with Printo</div>
+        <div class="chip yellow">Tools Hub</div>
+        <div class="chip green">Status maker</div>
+      </div>
+
+      <div class="small-grid">
+        <div class="small-card"><span>Use This ❯</span></div>
+        <div class="small-card" style="background:linear-gradient(135deg,#91c8f0,#0d295f)"><span>Use This ❯</span></div>
+        <div class="small-card" style="background:linear-gradient(135deg,#f2cf60,#436047)"><span>Use This ❯</span></div>
+        <div class="small-card" style="background:linear-gradient(135deg,#d0a87a,#4a4455)"><span>Use This ❯</span></div>
+      </div>
+
+      <div class="create">Create a video</div>
+      <div class="chips">
+        <div class="pill">Birthday</div><div class="pill">🧑 Nitin</div><div class="pill">Wedding</div><div class="pill">Vaishno Devi</div>
+        <div class="pill">Udaipur</div><div class="pill">Diwali</div><div class="pill">👩 Deepika</div><div class="pill">Wedding in Pune</div>
+        <div class="pill">Mugdha weds Vijay</div><div class="pill">👨 Roxy</div><div class="pill">🌸 Flowers</div><div class="pill">👩 Spruha</div>
+      </div>
+    </main>
+
+    <div class="nav">
+      <div class="nav-main"><span>🏠 Home</span><span>🖼️ Photos</span><span>📄 Files</span></div>
+      <div class="fab plus">＋</div>
+      <div class="fab cam">📸</div>
+    </div>
+  </body>
+</html>
