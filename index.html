@@ -1,0 +1,401 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Home Mock</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Encode+Sans:wght@400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #170106;
+        --bg-2: #2d000c;
+        --panel: #860026;
+        --panel-2: #6f001d;
+        --text: #fff6f8;
+        --muted: #e5b9c8;
+        --gold: #ffd447;
+      }
+
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: "Encode Sans", Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+        font-size: 14px;
+        color: var(--text);
+        background:
+          radial-gradient(240px 240px at 90% 8%, #5f0019 0%, transparent 72%),
+          radial-gradient(250px 320px at 8% 46%, #3d0011 0%, transparent 70%),
+          radial-gradient(220px 260px at 78% 88%, #4a0015 0%, transparent 75%),
+          linear-gradient(180deg, #1d0108 0%, #120105 100%);
+      }
+
+      .screen {
+        max-width: 340px;
+        margin: 0 auto;
+        min-height: 100vh;
+        padding: 12px 10px 90px;
+      }
+
+      .status {
+        font-size: 12px;
+        font-weight: 700;
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+      }
+
+      .header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 10px;
+      }
+
+      .title {
+        font-size: 16px;
+        line-height: 1.15;
+        font-weight: 400;
+      }
+
+      .title span { color: #f2c8d6; }
+
+      .avatar {
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        background: linear-gradient(140deg, #ffd6b7, #7a2f21);
+        border: 2px solid #e6c6b3;
+      }
+
+      .search {
+        height: 44px;
+        border-radius: 10px;
+        padding: 0 12px;
+        background: var(--panel-2);
+        border: 2px solid #b86f8a;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-weight: 700;
+        margin-bottom: 12px;
+      }
+      .search .hint { font-size: 14px; font-weight: 600; }
+
+      .hero {
+        height: 185px;
+        border-radius: 14px;
+        overflow: hidden;
+        display: flex;
+        align-items: end;
+        position: relative;
+        margin-bottom: 10px;
+        background: #2a1420;
+      }
+      .hero-slide {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0;
+        transition: opacity 350ms ease;
+      }
+      .hero-slide.active { opacity: 1; }
+      .hero::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to top, rgba(0,0,0,.45), transparent 45%);
+        z-index: 1;
+      }
+
+      .hero .bar {
+        width: 100%;
+        background: #8a0027e8;
+        padding: 10px 12px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-weight: 700;
+        z-index: 2;
+      }
+      .hero .sub { display:block; color: var(--muted); font-size: 12px; margin-top: 2px; font-weight: 500; }
+
+      .cards-3,
+      .cards-2,
+      .features,
+      .mini-cards {
+        display: grid;
+        gap: 8px;
+      }
+
+      .cards-3 { grid-template-columns: repeat(3, 1fr); margin-bottom: 12px; }
+      .cards-2 { grid-template-columns: 1fr 1fr; margin-bottom: 14px; }
+      .features { grid-template-columns: 1fr 1fr; margin-bottom: 10px; }
+      .mini-cards { grid-template-columns: repeat(4, 1fr); margin-bottom: 14px; }
+
+      .card {
+        border-radius: 10px;
+        position: relative;
+        overflow: hidden;
+        background: linear-gradient(145deg, #ef9f5b, #2e1432);
+      }
+      .card::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to top, rgba(0,0,0,.5), transparent 60%);
+      }
+      .label {
+        position: absolute;
+        left: 8px;
+        bottom: 8px;
+        right: 8px;
+        z-index: 1;
+        font-size: 12px;
+        font-weight: 600;
+      }
+
+      .sm { height: 138px; }
+      .md { height: 170px; }
+      .lg { height: 232px; }
+
+      .section {
+        text-align: center;
+        color: var(--gold);
+        font-size: 24px;
+        line-height: 1.05;
+        font-weight: 900;
+        margin: 10px 0 12px;
+      }
+
+      .stack { display: grid; gap: 8px; }
+      .stack .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+
+      .feature {
+        height: 205px;
+        border-radius: 10px;
+        padding: 8px;
+        display: flex;
+        align-items: end;
+        background: linear-gradient(145deg, #f6c89e, #5f2e2f);
+      }
+      .feature:nth-child(2) { background: linear-gradient(145deg, #ead8c7, #6f3945); }
+      .feature:nth-child(3) { background: linear-gradient(145deg, #efe1c1, #7d6555); }
+      .feature:nth-child(4) { background: linear-gradient(145deg, #dbcfc4, #47424f); }
+      .feature:nth-child(5) { background: linear-gradient(145deg, #555454, #2f2827); }
+      .feature:nth-child(6) { background: linear-gradient(145deg, #4f2f28, #937a4b); }
+      .btn-dark {
+        background: rgba(0,0,0,.78);
+        border-radius: 999px;
+        padding: 7px 12px;
+        font-size: 10px;
+        font-weight: 800;
+      }
+
+      .chips-scroll {
+        display: flex;
+        gap: 8px;
+        overflow: auto;
+        margin-bottom: 10px;
+      }
+
+      .chips-scroll::-webkit-scrollbar { display: none; }
+      .chips-scroll { -ms-overflow-style: none; scrollbar-width: none; }
+      .chips-scroll .chip {
+        flex: 0 0 auto;
+        border-radius: 9px;
+        padding: 8px 10px;
+        font-size: 12px;
+        font-weight: 800;
+        color: #1f1300;
+      }
+
+      .mini {
+        height: 86px;
+        border-radius: 8px;
+        background: linear-gradient(130deg, #e0a162, #2f486f);
+        position: relative;
+      }
+      .mini .use {
+        position: absolute;
+        left: 6px;
+        right: 6px;
+        bottom: 6px;
+        background: rgba(0,0,0,.76);
+        border-radius: 999px;
+        padding: 4px 8px;
+        font-size: 9px;
+        text-align: center;
+        font-weight: 700;
+      }
+
+      .create {
+        font-size: 28px;
+        font-weight: 900;
+        margin-bottom: 10px;
+      }
+
+      .tag-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .tag {
+        background: #fff;
+        color: #292124;
+        border-radius: 999px;
+        padding: 8px 12px;
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      .bottom {
+        position: fixed;
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: 12px;
+        width: min(340px, calc(100% - 16px));
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .dock {
+        background: #ffb20f;
+        color: #16120a;
+        border-radius: 999px;
+        padding: 12px 16px;
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        font-size: 11px;
+        font-weight: 800;
+        flex: 1;
+      }
+      .fab {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        font-weight: 900;
+        font-size: 24px;
+      }
+      .fab.plus { background: #ffb20f; color: #16120a; }
+      .fab.cam { background: #ff2b8f; }
+    </style>
+  </head>
+  <body>
+    <main class="screen">
+      <div class="status"><span>9:41</span><span>📶 𐄁 ◔</span></div>
+
+      <div class="header">
+        <div class="title">Shubh Prabhaat, <span>Seema</span></div>
+        <div class="avatar"></div>
+      </div>
+
+      <div class="search">
+        <span class="hint">🔍&nbsp;&nbsp;Hindi ya English mein puche</span>
+        <span>🎤</span>
+      </div>
+
+      <section class="hero" id="hero-slider">
+        <img class="hero-slide active" src="images/hero1.svg" alt="hero 1" />
+        <img class="hero-slide" src="images/hero2.svg" alt="hero 2" />
+        <img class="hero-slide" src="images/hero3.svg" alt="hero 3" />
+        <div class="bar">
+          <div>
+            Jaipur wali shaadi ki jhalkiya...🥰
+            <span class="sub">225 ready to view</span>
+          </div>
+          <div style="font-size: 24px">›</div>
+        </div>
+      </section>
+
+      <div class="cards-3">
+        <article class="card sm"><span class="label">Send Holi wishes</span></article>
+        <article class="card sm" style="background:linear-gradient(145deg,#9fc9c4,#362c56)"><span class="label">Remove blur</span></article>
+        <article class="card sm" style="background:linear-gradient(145deg,#dab69b,#46392b)"><span class="label">Indian Avatar</span></article>
+      </div>
+
+      <div class="section">AI magic for you 💖</div>
+
+      <div class="cards-2">
+        <article class="card lg"><span class="label">Mamta &amp; Amit</span></article>
+        <div class="stack">
+          <article class="card md" style="background:linear-gradient(145deg,#856840,#27303e)"><span class="label">Shivratri video is ready</span></article>
+          <div class="row2">
+            <article class="card sm"><span class="label">2025</span></article>
+            <article class="card sm" style="background:linear-gradient(145deg,#b9d2df,#465075)"><span class="label">Seema over the years</span></article>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">Start creating instantly ✨</div>
+
+      <div class="features">
+        <article class="feature"><span class="btn-dark">Photo to video ❯</span></article>
+        <article class="feature"><span class="btn-dark">Bridal look ❯</span></article>
+        <article class="feature"><span class="btn-dark">Change background ❯</span></article>
+        <article class="feature"><span class="btn-dark">Create collage ❯</span></article>
+        <article class="feature"><span class="btn-dark">Touchup your photos ❯</span></article>
+        <article class="feature"><span class="btn-dark">WhatsApp status ❯</span></article>
+      </div>
+
+      <div class="chips-scroll">
+        <div class="chip" style="background:#ff9c34">Free up 1.2 GB</div>
+        <div class="chip" style="background:#ff4f89">Print with Printo</div>
+        <div class="chip" style="background:#ffd949">Tools Hub</div>
+        <div class="chip" style="background:#6be8aa">Status maker</div>
+      </div>
+
+      <div class="mini-cards">
+        <div class="mini"><div class="use">Use This ❯</div></div>
+        <div class="mini" style="background:linear-gradient(130deg,#8fbde9,#0d2a5e)"><div class="use">Use This ❯</div></div>
+        <div class="mini" style="background:linear-gradient(130deg,#ecc95f,#3f6048)"><div class="use">Use This ❯</div></div>
+        <div class="mini" style="background:linear-gradient(130deg,#d0a678,#3f4254)"><div class="use">Use This ❯</div></div>
+      </div>
+
+      <div class="create">Create a video</div>
+
+      <div class="tag-list">
+        <span class="tag">Birthday</span>
+        <span class="tag">🧑 Nitin</span>
+        <span class="tag">Wedding</span>
+        <span class="tag">Vaishno Devi</span>
+        <span class="tag">Udaipur</span>
+        <span class="tag">Diwali</span>
+        <span class="tag">👩 Deepika</span>
+        <span class="tag">Wedding in Pune</span>
+        <span class="tag">Mugdha weds Vijay</span>
+        <span class="tag">👩 Spruha</span>
+        <span class="tag">Dance</span>
+        <span class="tag">Food</span>
+      </div>
+    </main>
+
+    <nav class="bottom">
+      <div class="dock"><span>🏠 Home</span><span>🖼 Photos</span><span>📄 Files</span></div>
+      <div class="fab plus">＋</div>
+      <div class="fab cam">📷</div>
+    </nav>
+
+    <script>
+      (() => {
+        const slides = Array.from(document.querySelectorAll('#hero-slider .hero-slide'));
+        let index = 0;
+        if (slides.length < 2) return;
+        setInterval(() => {
+          slides[index].classList.remove('active');
+          index = (index + 1) % slides.length;
+          slides[index].classList.add('active');
+        }, 2800);
+      })();
+    </script>
+  </body>
+</html>
