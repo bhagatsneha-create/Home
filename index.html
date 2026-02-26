@@ -28,10 +28,11 @@
         font-size: 14px;
         color: var(--text);
         background:
-          radial-gradient(240px 240px at 90% 8%, #5f0019 0%, transparent 72%),
-          radial-gradient(250px 320px at 8% 46%, #3d0011 0%, transparent 70%),
-          radial-gradient(220px 260px at 78% 88%, #4a0015 0%, transparent 75%),
-          linear-gradient(180deg, #1d0108 0%, #120105 100%);
+          radial-gradient(240px 240px at 90% 8%, #5f001999 0%, transparent 72%),
+          radial-gradient(250px 320px at 8% 46%, #3d001199 0%, transparent 70%),
+          radial-gradient(220px 260px at 78% 88%, #4a001599 0%, transparent 75%),
+          linear-gradient(180deg, #1d0108 0%, #120105 100%),
+          url("images/background.png") center/cover fixed;
       }
 
       .screen {
@@ -206,10 +207,25 @@
       .feature {
         height: 205px;
         border-radius: 10px;
+        position: relative;
+        overflow: hidden;
         padding: 8px;
         display: flex;
         align-items: end;
         background: linear-gradient(145deg, #f6c89e, #5f2e2f);
+      }
+      .feature::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to top, rgba(0, 0, 0, .58), transparent 52%);
+      }
+      .feature-img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
       }
       .feature:nth-child(2) { background: linear-gradient(145deg, #ead8c7, #6f3945); }
       .feature:nth-child(3) { background: linear-gradient(145deg, #efe1c1, #7d6555); }
@@ -222,6 +238,7 @@
         padding: 7px 12px;
         font-size: 10px;
         font-weight: 800;
+        z-index: 1;
       }
 
       .chips-scroll {
@@ -247,6 +264,14 @@
         border-radius: 8px;
         background: linear-gradient(130deg, #e0a162, #2f486f);
         position: relative;
+        overflow: hidden;
+      }
+      .mini img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
       }
       .mini .use {
         position: absolute;
@@ -259,6 +284,7 @@
         font-size: 9px;
         text-align: center;
         font-weight: 700;
+        z-index: 1;
       }
 
       .create {
@@ -357,6 +383,7 @@
         <img class="hero-slide active" src="images/Hero1.png" alt="hero 1" />
         <img class="hero-slide" src="images/Hero2.png" alt="hero 2" />
         <img class="hero-slide" src="images/Hero3.png" alt="hero 3" />
+        <img class="hero-slide" src="images/Hero4.png" alt="hero 4" />
         <div class="bar">
           <div>
             Jaipur wali shaadi ki jhalkiya...🥰
@@ -384,12 +411,24 @@
       <div class="section">AI magic for you 💖</div>
 
       <div class="cards-2">
-        <article class="card lg"><span class="label">Mamta &amp; Amit</span></article>
+        <article class="card lg">
+          <img class="card-img" src="images/createcoll.png" alt="Created collage" />
+          <span class="label">Mamta &amp; Amit</span>
+        </article>
         <div class="stack">
-          <article class="card md" style="background:linear-gradient(145deg,#856840,#27303e)"><span class="label">Shivratri video is ready</span></article>
+          <article class="card md">
+            <img class="card-img" src="images/shiv.png" alt="Shivratri" />
+            <span class="label">Shivratri video is ready</span>
+          </article>
           <div class="row2">
-            <article class="card sm"><span class="label">2025</span></article>
-            <article class="card sm" style="background:linear-gradient(145deg,#b9d2df,#465075)"><span class="label">Seema over the years</span></article>
+            <article class="card sm">
+              <img class="card-img" src="images/2025.png" alt="Happy 2025" />
+              <span class="label">2025</span>
+            </article>
+            <article class="card sm">
+              <img class="card-img" src="images/image 3 (2).png" alt="Seema over the years" />
+              <span class="label">Seema over the years</span>
+            </article>
           </div>
         </div>
       </div>
@@ -397,12 +436,12 @@
       <div class="section">Start creating instantly ✨</div>
 
       <div class="features">
-        <article class="feature"><span class="btn-dark">Photo to video ❯</span></article>
-        <article class="feature"><span class="btn-dark">Bridal look ❯</span></article>
-        <article class="feature"><span class="btn-dark">Change background ❯</span></article>
-        <article class="feature"><span class="btn-dark">Create collage ❯</span></article>
-        <article class="feature"><span class="btn-dark">Touchup your photos ❯</span></article>
-        <article class="feature"><span class="btn-dark">WhatsApp status ❯</span></article>
+        <article class="feature"><img class="feature-img" src="images/imagetovideo.png" alt="Photo to video" /><span class="btn-dark">Photo to video ❯</span></article>
+        <article class="feature"><img class="feature-img" src="images/bridal.png" alt="Bridal look" /><span class="btn-dark">Bridal look ❯</span></article>
+        <article class="feature"><img class="feature-img" src="images/background.png" alt="Change background" /><span class="btn-dark">Change background ❯</span></article>
+        <article class="feature"><img class="feature-img" src="images/createcoll.png" alt="Create collage" /><span class="btn-dark">Create collage ❯</span></article>
+        <article class="feature"><img class="feature-img" src="images/thouchup.png" alt="Touchup your photos" /><span class="btn-dark">Touchup your photos ❯</span></article>
+        <article class="feature"><img class="feature-img" src="images/whatapp.png" alt="WhatsApp status" /><span class="btn-dark">WhatsApp status ❯</span></article>
       </div>
 
       <div class="chips-scroll">
@@ -413,10 +452,10 @@
       </div>
 
       <div class="mini-cards">
-        <div class="mini"><div class="use">Use This ❯</div></div>
-        <div class="mini" style="background:linear-gradient(130deg,#8fbde9,#0d2a5e)"><div class="use">Use This ❯</div></div>
-        <div class="mini" style="background:linear-gradient(130deg,#ecc95f,#3f6048)"><div class="use">Use This ❯</div></div>
-        <div class="mini" style="background:linear-gradient(130deg,#d0a678,#3f4254)"><div class="use">Use This ❯</div></div>
+        <div class="mini"><img src="images/india.png" alt="India collage" /><div class="use">Use This Effect ❯</div></div>
+        <div class="mini"><img src="images/cricket.png" alt="Cricket highlights" /><div class="use">Use This Effect ❯</div></div>
+        <div class="mini"><img src="images/shiv.png" alt="Shiv frame" /><div class="use">Use This Effect ❯</div></div>
+        <div class="mini"><img src="images/Hero4.png" alt="Celebration reel" /><div class="use">Use This Effect ❯</div></div>
       </div>
 
       <div class="create">Create a video</div>
